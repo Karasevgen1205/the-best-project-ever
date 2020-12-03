@@ -1,8 +1,9 @@
 from django.urls import path
-
-from manager.views import hello, world
+from manager.views import hello, MyPage
 
 urlpatterns = [
+    path('hello/<int:digit>/', hello),
+    path('hello/<str:name>/', hello),
     path('hello/', hello),
-    path('world/', world),
+    path('', MyPage.as_view(), name='the-main-page')
 ]
