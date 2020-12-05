@@ -15,8 +15,8 @@ class Book(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
     authors = models.ManyToManyField(User, related_name='books')
-    likes =  models.PositiveIntegerField(default=0)
-
+    #likes =  models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='linked_books')
 
     def __str__(self):
         return f"{self.title}-{self.id}"
