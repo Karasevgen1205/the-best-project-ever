@@ -20,7 +20,15 @@ class MyPage (View):
 class AddLike(View):
     def get(self, request, id):
         if request.user.is_authenticated:
+            #book = Book.objects.get(id=id)
+            #book.likes += 1
+            #book.save()
             book = Book.objects.get(id=id)
-            book.likes += 1
+            book.likes.add(request.user)
             book.save()
+            if request.user in book.likes.all():
+                book.likes.filter(user_id=request.user.id).delete()
+            else:
+                book.likes.add(request.user)
+                book.save()
         return redirect("the-main-page")
