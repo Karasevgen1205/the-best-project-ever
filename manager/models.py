@@ -29,6 +29,12 @@ class LikeBookUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='like_book_table')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='like_user_table')
 
+    def save(self, **kwargs):
+        try:
+            super().save(**kwargs)
+        except:
+            LikeBookUser.objects.get(user=self.user, book=self.book).delete()
+
 class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)

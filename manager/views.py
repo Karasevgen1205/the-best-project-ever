@@ -13,15 +13,14 @@ def hello(request, name='filipp', digit=None):
 
 class MyPage (View):
     def get(self, request):
-        context = {'books': Book.objects.all()}
+        #context = {}
+        context = {'books': Book.objects.prefetch_related('authors')}
         #context['arr'] = ['igor', 'oleg', 'Abdyl', 'Rashid']
         return render(request, "index.html", context)
+
 
 class AddLike(View):
     def get(self, request, id):
         if request.user.is_authenticated:
-            try:
-                LikeBookUser.objects.create(user=request.user, book_id=id)
-            except:
-                LikeBookUser.objects.get(user=request.user, book_id=id).delete()
+           LikeBookUser.objects.create(user=request.user, book_id=id)
         return redirect("the-main-page")
