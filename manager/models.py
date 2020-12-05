@@ -15,6 +15,7 @@ class Book(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
     authors = models.ManyToManyField(User, related_name='books')
+    likes =  models.PositiveIntegerField(default=0)
 
 
     def __str__(self):
@@ -28,6 +29,7 @@ class Comment(models.Model):
                              related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                null=True, blank=True)
+
 
 
 # Create your models here.
