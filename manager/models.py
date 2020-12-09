@@ -15,7 +15,6 @@ class Book(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
     authors = models.ManyToManyField(User, related_name='books')
-    #likes =  models.PositiveIntegerField(default=0)
     likes1 = models.ManyToManyField(User, through="manager.LikeBookUser", related_name='linked_books')
 
     def __str__(self):
@@ -42,5 +41,19 @@ class Comment(models.Model):
                              related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                null=True, blank=True)
+    likes2 = models.ManyToManyField(User, through="manager.LikeCommentUser", related_name='linked_comments')
 
-# Create your models here.
+
+class LikeCommentUser(models.Model):
+    class Meta:
+        unique_together = ("user", "comment")
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_comment_table')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='liked_user_table')
+
+    def save(self, **kwargs):
+        try:
+            super().save(**kwargs)
+        except:
+            LikeCommentUser.objects.get(user=self.user, comment=self.comment).delete()
+
