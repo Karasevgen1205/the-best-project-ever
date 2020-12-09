@@ -15,6 +15,7 @@ class Book(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
     authors = models.ManyToManyField(User, related_name='books')
+    likes = models.PositiveIntegerField(default=0)
     users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name='linked_books')
 
     def __str__(self):
@@ -33,6 +34,17 @@ class LikeBookUser(models.Model):
             super().save(**kwargs)
         except:
             LikeBookUser.objects.get(user=self.user, book=self.book).delete()
+            self.book.likes -= 1
+        else:
+            self.book.likes += 1
+        self.book.save()
+
+    # def save(self, **kwargs):
+    #     try:
+    #         super().save(**kwargs)
+    #     except:
+    #         LikeBookUser.objects.get(user=self.user, book=self.book).delete()
+
 
 class Comment(models.Model):
     text = models.TextField()

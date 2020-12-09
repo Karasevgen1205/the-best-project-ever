@@ -12,14 +12,24 @@ def hello(request, name='filipp', digit=None):
     return HttpResponse(f"hello {name}")
 
 
+# class MyPage(View):
+#     def get(self, request):
+#         context = {}
+#         comment_query = Comment.objects.annotate(count_liked=Count('users_like'))
+#         comments = Prefetch("comments", comment_query)
+#         context['books'] = Book.objects.prefetch_related("authors", comments).\
+#             annotate(coun_liket=Count('users_like'))
+#         return render(request, "index.html", context)
+
+
 class MyPage(View):
     def get(self, request):
         context = {}
-        comment_query = Comment.objects.annotate(count_liked=Count('users_like'))
+        comment_query = Comment.objects.annotate(count_liked=Count('users_like')).select_related("author")
         comments = Prefetch("comments", comment_query)
-        context['books'] = Book.objects.prefetch_related("authors", comments).\
-            annotate(coun_liket=Count('users_like'))
-        return render(request, "index.html", context) #context1
+        books = Book.objects.prefetch_related("authors", comments)
+        context['books'] = books
+        return render(request, "index.html", context)
 
 
 class AddLike(View):
@@ -34,3 +44,4 @@ class AddLike2Comment(View):
         if request.user.is_authenticated:
             LikeCommentUser.objects.create(user=request.user, comment_id=id)
         return redirect("the-main-page")
+
