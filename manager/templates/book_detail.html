@@ -3,20 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>.checked {color: orange;}
-</style>
-
 </head>
 <body>
-<div class="container">
 {{ user }}
     {% for b in books %}
         <h1>{{ b.title }}</h1>
-        <h2>{{ b.date }}</h2>
-        <h3>{{ b.text }}</h3>
-        <h4>{{ b.authors.all }}</h4>
+        <h2>{{ book.date }}</h2>
+        <h3>{{ book.text }}</h3>
+        <h4>{{ book.authors.all }}</h4>
         <a href="{% url 'add-like' id=b.id %}"><h4>Likes: {{ b.likes }}</h4></a>
         {% for i in "12345" %}
             {% if rate < i %}
@@ -37,7 +31,6 @@
                 <h4>Likes: {{ comment.count_liked }}</h4></a>
         {% endfor %}
         <br>
-    {% endfor %}
-</div>
+        {% endfor %}
 </body>
 </html>
