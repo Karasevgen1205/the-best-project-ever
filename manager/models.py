@@ -15,7 +15,7 @@ class Book(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
     authors = models.ManyToManyField(User, related_name='books')
-    likes1 = models.ManyToManyField(User, through="manager.LikeBookUser", related_name='linked_books')
+    users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name='linked_books')
 
     def __str__(self):
         return f"{self.title}-{self.id}"
@@ -41,7 +41,11 @@ class Comment(models.Model):
                              related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                null=True, blank=True)
-    likes2 = models.ManyToManyField(User, through="manager.LikeCommentUser", related_name='linked_comments')
+    users_like = models.ManyToManyField(
+        User,
+        through="manager.LikeCommentUser",
+        related_name='linked_comments'
+    )
 
 
 class LikeCommentUser(models.Model):
