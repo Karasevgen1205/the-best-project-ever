@@ -11,11 +11,9 @@ def hello(request, name='filipp', digit=None):
     return HttpResponse(f"hello {name}")
 
 
-class MyPage (View):
+class MyPage(View):
     def get(self, request):
-        #context = {}
-        context = {'books': Book.objects.prefetch_related('authors')}
-        #context['arr'] = ['igor', 'oleg', 'Abdyl', 'Rashid']
+        context = {'books': Book.objects.all()}
         return render(request, "index.html", context)
 
 

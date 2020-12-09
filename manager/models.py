@@ -26,8 +26,8 @@ class LikeBookUser(models.Model):
     class Meta:
         unique_together = ("user", "book")
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='like_book_table')
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='like_user_table')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_book_table')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='liked_user_table')
 
     def save(self, **kwargs):
         try:
