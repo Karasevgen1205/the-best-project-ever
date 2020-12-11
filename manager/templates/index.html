@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>.checked {color: orange;}
-</style>
+{% extends 'main_template.html' %}
+{% block main %}
 
-</head>
-<body>
-<div class="container">
 {{ user }}
     {% for b in books %}
-        <h1>{{ b.title }}</h1>
+        <a href="{% url 'book-detail' id=b.id %}"><h1>{{ b.title }}</h1></a>
         <h2>{{ b.date }}</h2>
         <h3>{{ b.text }}</h3>
         <h4>{{ b.authors.all }}</h4>
@@ -38,6 +28,4 @@
         {% endfor %}
         <br>
     {% endfor %}
-</div>
-</body>
-</html>
+{% endblock %}
