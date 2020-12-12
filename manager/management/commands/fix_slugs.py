@@ -7,6 +7,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         books = Book.objects.all()
         for b in books:
-           b.slug = slugify(b.title)
-        Book.objects.bulk_update(books, ['slug'])
-
+            b.slug = slugify(b.title)
+            try:
+                b.save()
+            except:
+                b.slug += str(b.id)
+                b.save()

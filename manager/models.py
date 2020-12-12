@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from slugify import slugify
 
 class Book(models.Model):
     class Meta:
@@ -9,7 +9,7 @@ class Book(models.Model):
 
     title = models.CharField(
         max_length=50, verbose_name='название',
-        help_text='ну это типо погоняло книги'
+        help_text='ну это типа погоняло книги'
     )
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
@@ -22,6 +22,9 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title}-{self.id}"
+
+    def save(self, **kwargs):
+        super().save(**kwargs)
 
 
 class LikeBookUser(models.Model):
