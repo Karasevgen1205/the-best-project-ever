@@ -31,10 +31,13 @@ class AddLike2Comment(View):
 
 
 class AddRate2Book(View):
-    def get(self, request, id, rate):
+    def get(self, request, id, rate, location=None):
         if request.user.is_authenticated:
             RateBookUser.objects.create(user=request.user, book_id=id, rate=rate)
-        return redirect("the-main-page")
+        if location is None:
+            return redirect("the-main-page")
+        else:
+            pass
 
 
 class BookDetail(View):
