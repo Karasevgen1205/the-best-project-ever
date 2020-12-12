@@ -18,7 +18,7 @@ class Book(models.Model):
     count_rated_users = models.PositiveIntegerField(default=0)
     count_all_stars = models.PositiveIntegerField(default=0)
     users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name='linked_books')
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(null=True, unique=True)
 
     def __str__(self):
         return f"{self.title}-{self.id}"
