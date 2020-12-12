@@ -1,20 +1,13 @@
 from django.core.management.base import BaseCommand
-from django.db.models import Sum, Count
+from django.db.models import Count
 from manager.models import Book
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        books = Book.objects.annotate(
-            tmp_all_stars=Sum("liked_user_table__rate"),
-            tmp_rated_users=Count("liked_user_table")
-        )
-        for b in books:
-            b.count_rated_users = b.tmp_rated_users
-            b.count_all_stars = b.tmp_all_stars
-            b.rate = b.tmp_all_stars / b.tmp_rated_users
-        Book.objects.bulk_update(
-            books,
-            ["count_rated_users", "tmp_all_stars", "rate"],
-            batch_size=4
-        )
+        book = Book.objects.annotate(count_like=Count("users_like"))
+        # print([(i.likes, i.count_like) for i in book])
+        # Book.objects.update(likes=45)
+        for b in book:
+            b.likes = b.count_like
+        Book.objects.bulk_update(book, ['likes'])

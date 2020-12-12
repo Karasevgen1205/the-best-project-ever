@@ -5,7 +5,7 @@ urlpatterns = [
     path('hello/<int:digit>/', hello),
     path('hello/<str:name>/', hello),
     path('hello/', hello),
-    path('add_like_to_comment/<int:id>/', AddLike2Comment.as_view(), name='add_like_to_comment'),
+    path('add_like_to_comment/<int:id>/', AddLike2Comment.as_view(), name='add-like-to-comment'),
     path('add_rate_to_book/<int:id>/<int:rate>/', AddRate2Book.as_view(), name="add-rate"),
     path('add_rate_to_book/<int:id>/<int:rate>/<str:location>/',
          AddRate2Book.as_view(), name="add-rate-location"),

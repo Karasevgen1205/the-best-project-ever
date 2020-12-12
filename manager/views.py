@@ -16,7 +16,7 @@ def hello(request, name='filipp', digit=None):
 class MyPage(View):
     def get(self, request):
         context = {}
-        comment_query = Comment.objects.annotate(count_liked=Count('users_like')).select_related("author")
+        comment_query = Comment.objects.annotate(count_like=Count('users_like')).select_related("author")
         comments = Prefetch("comments", comment_query)
         context['books'] = Book.objects.prefetch_related("authors", comments)
         context['range'] = range(1, 6)
@@ -41,7 +41,7 @@ class AddRate2Book(View):
 
 class BookDetail(View):
     def get(self, request, id):
-        comment_query = Comment.objects.annotate(count_liked=Count('users_like')).select_related("author")
+        comment_query = Comment.objects.annotate(count_like=Count('users_like')).select_related("author")
         comments = Prefetch("comments", comment_query)
         book = Book.objects.prefetch_related("authors", comments).get(id=id)
         return render(request, "book_detail.html", {'book': book, "rate": 2})

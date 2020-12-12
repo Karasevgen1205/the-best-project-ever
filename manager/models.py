@@ -2,13 +2,15 @@ from django.contrib.auth.models import User
 from django.db import models
 from slugify import slugify
 
+
 class Book(models.Model):
     class Meta:
         verbose_name = "Книга"
         verbose_name_plural = "Книги"
 
     title = models.CharField(
-        max_length=50, verbose_name='название',
+        max_length=50,
+        verbose_name='название',
         help_text='ну это типа погоняло книги'
     )
     date = models.DateTimeField(auto_now_add=True, null=True)
@@ -66,7 +68,7 @@ class Comment(models.Model):
     users_like = models.ManyToManyField(
         User,
         through="manager.LikeCommentUser",
-        related_name='linked_comments'
+        related_name="liked_comment"
     )
 
 
