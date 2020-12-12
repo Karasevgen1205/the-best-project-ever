@@ -24,7 +24,13 @@ class Book(models.Model):
         return f"{self.title}-{self.id}"
 
     def save(self, **kwargs):
-        super().save(**kwargs)
+        if self.id is None:
+            self.slug = slugify(self.title)
+        try:
+            super().save(**kwargs)
+        except:
+            self.slug += str(self.id)
+            super().save(**kwargs)
 
 
 class LikeBookUser(models.Model):
