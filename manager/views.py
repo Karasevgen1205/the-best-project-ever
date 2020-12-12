@@ -36,8 +36,7 @@ class AddRate2Book(View):
             RateBookUser.objects.create(user=request.user, book_id=id, rate=rate)
         if location is None:
             return redirect("the-main-page")
-        else:
-            pass
+        return redirect("book-detail", id=id)
 
 
 class BookDetail(View):
