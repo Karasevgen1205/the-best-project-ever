@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+
+from manager.forms import BookForm
 from manager.models import Book, Comment, LikeCommentUser
 from manager.models import LikeBookUser as RateBookUser
 
@@ -20,6 +22,7 @@ class MyPage(View):
         comments = Prefetch("comments", comment_query)
         context['books'] = Book.objects.prefetch_related("authors", comments)
         context['range'] = range(1, 6)
+        context['form'] = BookForm()
         return render(request, "index.html", context)
 
 
