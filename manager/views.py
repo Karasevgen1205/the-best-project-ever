@@ -53,11 +53,13 @@ class BookDetail(View):
 class AddBook(View):
    def post(self, request):
         if request.user.is_authenticated:
-            book = Book.object.create(
-                title=request.POST['title'],
-                text=request.POST['text'],
-            )
-            book.authors.add(request.user)
-            book.save()
+            # bf = BookForm(data=request.POST)
+            # book = bf.save(commit=False)
+            # book.authors.add(request.user)
+            # book.save()
+            bf = BookForm(data=request.POST)
+            book = bf.save(commit=False)
+
+
         return redirect("the-main-page")
 

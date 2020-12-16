@@ -34,10 +34,10 @@
 {% if user.is_authenticated %}
 
 
-<form action="{% url 'add-book' %}" method="post"></form>
+<form action="{% url 'add-book' %}" method="post">
     {{ form }}
     <input type="submit" value="ОК">
-
+</form>
 
 {% endif %}
 {% endblock %}
