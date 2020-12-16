@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-
+from django.contrib.auth.forms import AuthenticationForm
 from manager.forms import BookForm
 from manager.models import Book, Comment, LikeCommentUser
 from manager.models import LikeBookUser as RateBookUser
@@ -58,5 +58,4 @@ class AddBook(View):
             book.authors.add(request.user)
             book.save()
         return redirect("the-main-page")
-
 
