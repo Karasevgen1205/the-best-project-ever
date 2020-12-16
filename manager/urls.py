@@ -1,5 +1,5 @@
 from django.urls import path
-from manager.views import hello, MyPage, AddLike2Comment, AddRate2Book, BookDetail
+from manager.views import hello, MyPage, AddLike2Comment, AddRate2Book, BookDetail, AddBook
 
 urlpatterns = [
     path('hello/<int:digit>/', hello),
@@ -10,5 +10,6 @@ urlpatterns = [
     path('add_rate_to_book/<int:id>/<int:rate>/<str:location>/',
          AddRate2Book.as_view(), name="add-rate-location"),
     path('book_view_detail/<int:id>/', BookDetail.as_view(), name="book-detail"),
+    path('add_bbok/', AddBook.as_view(), name="add-book"),
     path('', MyPage.as_view(), name='the-main-page'),
 ]

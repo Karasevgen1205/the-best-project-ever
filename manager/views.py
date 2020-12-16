@@ -47,6 +47,11 @@ class BookDetail(View):
         return render(request, "book_detail.html", {'book': book, "rate": 2})
 
 
+class AddBook(View):
+   def post(self, request):
+        if request.user.is_authenticated:
+            print(request.POST)
+        return redirect("the-main-page")
 
 
 
