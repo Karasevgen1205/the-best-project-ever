@@ -58,4 +58,3 @@ class AddBook(View):
             book.save()
         return redirect("the-main-page")
 
-

@@ -32,14 +32,15 @@
 
 
 {% if user.is_authenticated %}
-<form action="{% url 'add-book' %}" method="post">
-    {% csrf_token %}
-    <label for="title">Title for book</label><br>
-    <input type="text" id="title" name="title"><br>
-    <label for="text">text book</label><br>
-    <textarea rows="5" name="text" id="text" cols="50"></textarea>
-    <input type="submit" value="Добавить Книгу">
-</form>
+
+<!--<form action="{% url 'add-book' %}" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <label for="title">Title for book</label><br>-->
+<!--    <input type="text" id="title" name="title"><br>-->
+<!--    <label for="text">text book</label><br>-->
+<!--    <textarea rows="5" name="text" id="text" cols="50"></textarea>-->
+<!--    <input type="submit" value="Добавить Книгу">-->
+<!--</form>-->
 
 {% endif %}
 {% endblock %}
