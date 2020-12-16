@@ -50,10 +50,12 @@ class BookDetail(View):
 class AddBook(View):
    def post(self, request):
         if request.user.is_authenticated:
-            print(request.POST)
+            book = Book.object.create(
+                title=request.POST['title'],
+                text=request.POST['text'],
+            )
+            book.authors.add(request.user)
+            book.save()
         return redirect("the-main-page")
-
-
-
 
 
