@@ -10,16 +10,17 @@ class Book(models.Model):
 
     title = models.CharField(
         max_length=50,
-        verbose_name='название',
-        help_text='ну это типа погоняло книги'
+        verbose_name="название",
+        help_text="ну это типо погоняло книги",
+        db_index=True
     )
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
-    authors = models.ManyToManyField(User, related_name='books')
+    authors = models.ManyToManyField(User, related_name="books")
     rate = models.DecimalField(decimal_places=2, max_digits=3, default=0.0)
     count_rated_users = models.PositiveIntegerField(default=0)
     count_all_stars = models.PositiveIntegerField(default=0)
-    users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name='linked_books')
+    users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name="liked_books")
     slug = models.SlugField(null=True, unique=True)
 
     def __str__(self):
@@ -39,9 +40,9 @@ class LikeBookUser(models.Model):
     class Meta:
         unique_together = ("user", "book")
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_book_table')
-    book: Book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='liked_user_table')
-    rate = models.PositiveBigIntegerField(default=5)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_book_table")
+    book: Book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="liked_user_table")
+    rate = models.PositiveIntegerField(default=5)
 
     def save(self, **kwargs):
         try:
@@ -61,10 +62,8 @@ class LikeBookUser(models.Model):
 class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE,
-                             related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE,
-                               null=True, blank=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     users_like = models.ManyToManyField(
         User,
         through="manager.LikeCommentUser",
@@ -76,8 +75,8 @@ class LikeCommentUser(models.Model):
     class Meta:
         unique_together = ("user", "comment")
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_comment_table')
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='liked_user_table')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_comment_table")
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="liked_user_table")
 
     def save(self, **kwargs):
         try:
@@ -85,3 +84,14 @@ class LikeCommentUser(models.Model):
         except:
             LikeCommentUser.objects.get(user=self.user, comment=self.comment).delete()
 
+
+class TestTale(models.Model):
+    title = models.CharField(max_length=50, primary_key=True, db_column="title")
+
+
+class TestComment(models.Model):
+    test = models.ForeignKey(TestTale, on_delete=models.CASCADE)
+
+
+class TestComment1(models.Model):
+    test = models.ForeignKey(TestTale, on_delete=models.CASCADE)
