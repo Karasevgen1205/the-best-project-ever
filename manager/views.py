@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import View
 from django.contrib.auth.forms import AuthenticationForm
 from manager.forms import BookForm, CustomAuthenticationForm
-from manager.models import Book, Comment, LikeCommentUser
+from manager.models import TMPBook as Book, Comment, LikeCommentUser
 from manager.models import LikeBookUser as RateBookUser
 
 
@@ -53,8 +53,8 @@ class AddLike2Comment(View):
 class AddRate2Book(View):
     def get(self, request, slug, rate, location=None):
         if request.user.is_authenticated:
-            book_id = Book.objects.get(slug=slug).id
-            RateBookUser.objects.create(user=request.user, book_id=book_id, rate=rate)
+           # book_id = Book.objects.get(slug=slug).id
+            RateBookUser.objects.create(user=request.user, tmp_book_id=slug, rate=rate)
         if location is None:
             return redirect("the-main-page")
         return redirect("book-detail", slug=slug)

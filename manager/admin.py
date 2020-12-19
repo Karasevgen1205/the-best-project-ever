@@ -1,5 +1,5 @@
 from django.contrib import admin
-from manager.models import Book, Comment
+from manager.models import TMPBook as Book, Comment
 
 
 class CommentAdmin(admin.StackedInline):
@@ -15,4 +15,3 @@ class BookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Book, BookAdmin)
-# Register your models here.

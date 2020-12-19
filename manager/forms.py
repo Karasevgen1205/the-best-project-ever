@@ -1,5 +1,5 @@
 from django.forms import ModelForm, TextInput, Textarea, CharField, PasswordInput, BaseForm
-from manager.models import Book
+from manager.models import TMPBook as Book
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
 
