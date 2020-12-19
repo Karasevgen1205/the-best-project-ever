@@ -22,7 +22,11 @@
             {% endif %}
         {% endfor %}
         {% if d.is_owner %}
-            <a href="{% url 'delete-book' slug=b.slug %}"><i>Delete Book</i></a>
+            <a href="{% url 'delete-book' slug=b.slug %}">
+                <i>
+                    <input class="btn btn-danger" type="button" value="Delete Book">
+                </i>
+            </a>
         {% endif %}
 
 <!--        {% for comment in b.comments.all %}-->
