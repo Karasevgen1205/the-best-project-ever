@@ -85,13 +85,15 @@ class AddBook(View):
 
 def delete_book(request, slug):
     if request.user.is_authenticated:
-        Book.objects.get(slug-slug).delete()
+        book = Book.objects.get(slug-slug).delete()
         return redirect("the-main-page")
 
 
 class UpdateBook(View):
     def get(self, request, slug):
-
-
-
+        if request.user.is_authenticated:
+            book = Book.objects.get(slug=slug)
+            if request.user in book.authors.all():
+                form = BookForm(instance=book)
+                return render(request, "update_book.html", {"form": form})
         return redirect("the-main-page")
