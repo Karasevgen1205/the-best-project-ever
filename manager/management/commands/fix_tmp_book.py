@@ -19,8 +19,19 @@ class Commnd(BaseCommand):
         ]
         TMPBook.objects.bulk_create(arr)
         print('done')
+
         query = Book.objects.all().values("slug", "id")
         all_lbu=LikeBookUser.objects.all()
         for book in query:
-            pass
+            new_set = all_lbu.filetr(book_id=book['id'])
+            for lbu in new_set:
+                lbu.tmp_book_id=book['slug']
+                lbu.save()
 
+        query = Book.objects.all().values("slug", "id")
+        all_comment = Comment.objects.all()
+        for book in query:
+            comments = all_comment.filter(book_id=book['id'])
+            for c in comments:
+                c.tmp_book_id=book['slug']
+            Comment.objects.bulk_update(comments, ['tmp_book_id'])
