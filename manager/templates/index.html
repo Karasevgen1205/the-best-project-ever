@@ -27,6 +27,13 @@
                     <input class="btn btn-danger" type="button" value="Delete Book">
                 </i>
             </a>
+
+             <a href="{% url 'update-book' slug=b.slug %}">
+                <i>
+                    <input class="btn btn-danger" type="button" value="Update Book">
+                </i>
+            </a>
+
         {% endif %}
 
 <!--        {% for comment in b.comments.all %}-->

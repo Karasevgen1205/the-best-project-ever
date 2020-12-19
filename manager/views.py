@@ -87,3 +87,11 @@ def delete_book(request, slug):
     if request.user.is_authenticated:
         Book.objects.get(slug-slug).delete()
         return redirect("the-main-page")
+
+
+class UpdateBook(View):
+    def get(self, request, slug):
+
+
+
+        return redirect("the-main-page")
