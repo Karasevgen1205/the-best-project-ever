@@ -49,11 +49,11 @@ class TMPBook(models.Model):
     )
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
-    authors = models.ManyToManyField(User, related_name="books")
+    authors = models.ManyToManyField(User, related_name="tmp_books")
     rate = models.DecimalField(decimal_places=2, max_digits=3, default=0.0)
     count_rated_users = models.PositiveIntegerField(default=0)
     count_all_stars = models.PositiveIntegerField(default=0)
-    users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name="liked_books")
+    users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name="tmp_liked_books")
     slug = models.SlugField(primary_key=True)
     #uuid = models.UUIDField()
 
@@ -77,7 +77,7 @@ class LikeBookUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_book_table")
     book: Book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="liked_user_table")
     tmp_book: TMPBook = models.ForeignKey(
-        TMPBook, on_delete=models.CASCADE(), related_name="liked_user_table", null=True)
+        TMPBook, on_delete=models.CASCADE, related_name="liked_user_table", null=True)
     rate = models.PositiveIntegerField(default=5)
 
     def save(self, **kwargs):
@@ -99,6 +99,7 @@ class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="comments")
+    tmp_book = models.ForeignKey(TMPBook, on_delete=models.CASCADE, related_name="comments", null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     users_like = models.ManyToManyField(
         User,
