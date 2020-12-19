@@ -36,12 +36,48 @@ class Book(models.Model):
             super().save(**kwargs)
 
 
+class TMPBook(models.Model):
+    class Meta:
+        verbose_name = "Книга"
+        verbose_name_plural = "Книги"
+
+    title = models.CharField(
+        max_length=50,
+        verbose_name="название",
+        help_text="ну это типо погоняло книги",
+        db_index=True
+    )
+    date = models.DateTimeField(auto_now_add=True, null=True)
+    text = models.TextField()
+    authors = models.ManyToManyField(User, related_name="books")
+    rate = models.DecimalField(decimal_places=2, max_digits=3, default=0.0)
+    count_rated_users = models.PositiveIntegerField(default=0)
+    count_all_stars = models.PositiveIntegerField(default=0)
+    users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name="liked_books")
+    slug = models.SlugField(primary_key=True)
+    #uuid = models.UUIDField()
+
+    def __str__(self):
+        return f"{self.title}-{self.id}"
+
+    # def save(self, **kwargs):
+    #     if self.id is None:
+    #         self.slug = slugify(self.title)
+    #     try:
+    #         super().save(**kwargs)
+    #     except:
+    #         self.slug += str(self.id)
+    #         super().save(**kwargs)
+    #
+
 class LikeBookUser(models.Model):
     class Meta:
         unique_together = ("user", "book")
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_book_table")
     book: Book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="liked_user_table")
+    tmp_book: TMPBook = models.ForeignKey(
+        TMPBook, on_delete=models.CASCADE(), related_name="liked_user_table", null=True)
     rate = models.PositiveIntegerField(default=5)
 
     def save(self, **kwargs):
