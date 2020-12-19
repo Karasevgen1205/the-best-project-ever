@@ -44,3 +44,5 @@ class Commnd(BaseCommand):
             for author in book.authors.all():
                 tmp_books.authors.add(author)
             tmp_books.save()
+
+
