@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from slugify import slugify
 
-#
+
 # class Book(models.Model):
 #     class Meta:
 #         verbose_name = "Книга"
@@ -55,20 +55,18 @@ class TMPBook(models.Model):
     count_all_stars = models.PositiveIntegerField(default=0)
     users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name="tmp_liked_books")
     slug = models.SlugField(primary_key=True)
-    #uuid = models.UUIDField()
 
     def __str__(self):
         return f"{self.title}-{self.id}"
 
-    # def save(self, **kwargs):
-    #     if self.id is None:
-    #         self.slug = slugify(self.title)
-    #     try:
-    #         super().save(**kwargs)
-    #     except:
-    #         self.slug += str(self.id)
-    #         super().save(**kwargs)
-    #
+    def save(self, **kwargs):
+        if self.slug == "":
+            self.slug = slugify(self.title)
+        try:
+            super().save(**kwargs)
+        except:
+            self.slug += str(self.slug)
+            super().save(**kwargs)
 
 class LikeBookUser(models.Model):
     class Meta:

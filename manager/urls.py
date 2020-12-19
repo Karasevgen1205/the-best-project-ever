@@ -15,5 +15,6 @@ urlpatterns = [
     path("add_book/", AddBook.as_view(), name="add-book"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", logout_user, name="logout"),
+    path("delete_book/<str:slug>/", book_delete, name="delete-book"),
     path("", MyPage.as_view(), name="the-main-page"),
 ]

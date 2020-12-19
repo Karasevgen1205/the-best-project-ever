@@ -1,5 +1,6 @@
 from django.contrib.auth import login, logout
-from django.db.models import Count, Prefetch, Avg
+from django.contrib.auth.models import User
+from django.db.models import Count, Prefetch, Avg, OuterRef, Exists
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -21,7 +22,11 @@ class MyPage(View):
         context = {}
         comment_query = Comment.objects.annotate(count_like=Count("users_like")).select_related("author")
         comments = Prefetch("comments", comment_query)
-        context['books'] = Book.objects.prefetch_related("authors", comments)
+        books = Book.objects.prefetch_related("authors", comments)
+        if request.user.is_authenticated:
+            is_owner = Exists(User.objects.filter(books=OuterRef('pk'), id=request.user.id)
+            books = books.annotate(is_owner=is_owner)
+        context['books'] = books.order_by("-rate", "date")
         context['range'] = range(1, 6)
         context['form'] = BookForm()
         return render(request, "index.html", context)
@@ -75,4 +80,10 @@ class AddBook(View):
             book = bf.save(commit=True)
             book.authors.add(request.user)
             book.save()
+        return redirect("the-main-page")
+
+
+def delete_book(request, slug):
+    if request.user.is_authenticated:
+        Book.objects.get(slug-slug).delete()
         return redirect("the-main-page")
