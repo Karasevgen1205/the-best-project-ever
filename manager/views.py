@@ -95,5 +95,14 @@ class UpdateBook(View):
             book = Book.objects.get(slug=slug)
             if request.user in book.authors.all():
                 form = BookForm(instance=book)
-                return render(request, "update_book.html", {"form": form})
+                return render(request, "update_book.html", {"form": form, "slug": book.slug})
+        return redirect("the-main-page")
+
+    def post(self, request, slug):
+        if request.user.is_authenticated:
+            book = Book.objects.get(slug=slug)
+            if request.user in book.authors.all():
+                bf = BookForm(instance=book, data=request.POST)
+                if bf.is_valid():
+                    bf.save(commit=True)
         return redirect("the-main-page")
