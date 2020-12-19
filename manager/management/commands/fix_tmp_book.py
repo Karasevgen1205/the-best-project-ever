@@ -27,6 +27,7 @@ class Commnd(BaseCommand):
             for lbu in new_set:
                 lbu.tmp_book_id=book['slug']
                 lbu.save()
+            LikeBookUser.objects.bulk_update(new_set, ['tmp_book_id'])
 
         query = Book.objects.all().values("slug", "id")
         all_comment = Comment.objects.all()
@@ -35,3 +36,11 @@ class Commnd(BaseCommand):
             for c in comments:
                 c.tmp_book_id=book['slug']
             Comment.objects.bulk_update(comments, ['tmp_book_id'])
+
+        books = Book.objects.all()
+        tmp_books = TMPBook.objects.all()
+        for book in books:
+            tmp_books = tmp_books.get(slug=book.slug)
+            for author in book.authors.all():
+                tmp_books.authors.add(author)
+            tmp_books.save()
