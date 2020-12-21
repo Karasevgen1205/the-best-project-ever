@@ -24,3 +24,7 @@ class BookForm(ModelForm):
             "title": "",
             "text": ""
         }
+
+
+def CommentForm():
+    return None
