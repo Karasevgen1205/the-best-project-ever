@@ -1,15 +1,23 @@
 {% extends 'main_template.html' %}
 
 {% block main %}
-<a href="{% url 'login' %}">Login</a>
-<a href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'login' %}">login</a>
+<a href="{% url 'logout' %}">logout</a>
 {{ user }}
     {% for b in books %}
         <a href="{% url 'book-detail' slug=b.slug %}"><h1>{{ b.title }}</h1></a>
-        <h2>{{ b.date }}</h2>
+        {% if b.is_owner %}
+            <a href="{% url 'delete-book' slug=b.slug %}">
+                <button type="button" class="btn btn-outline-danger">Удалить книгу</button>
+            </a>
+            <a href="{% url 'update-book' slug=b.slug %}">
+                <button type="button" class="btn btn-outline-danger">Редактировть книгу</button>
+            </a>
+        {% endif %}
+        <h6><i>{{ b.date }}</i></h6>
         <h3>{{ b.text }}</h3>
-        <h4>{{ b.authors.all }}</h4>
-        {{ b.rate }}
+        <h6><i>{{ b.authors.all }}</i></h6>
+        <span class="badge">{{ b.rate }}</span>
         {% for i in range %}
             {% if b.rate >= i %}
                 <a href="{% url 'add-rate' slug=b.slug rate=i %}">
@@ -21,37 +29,16 @@
                 </a>
             {% endif %}
         {% endfor %}
-        {% if d.is_owner %}
-            <a href="{% url 'delete-book' slug=b.slug %}">
-                <i>
-                    <input class="btn btn-danger" type="button" value="Delete Book">
-                </i>
-            </a>
-
-             <a href="{% url 'update-book' slug=b.slug %}">
-                <i>
-                    <input class="btn btn-danger" type="button" value="Update Book">
-                </i>
-            </a>
-
-        {% endif %}
-
-<!--        {% for comment in b.comments.all %}-->
-<!--            <h4>{{ comment.text }}</h4>-->
-<!--            <h5>{{ comment.date }}</h5>-->
-<!--            <h6>{{ comment.author }}</h6>-->
-<!--            <a href="{% url 'add-like-to-comment' id=comment.id %}">-->
-<!--                <h4>Likes: {{ comment.count_like }}</h4>-->
-<!--            </a>-->
-<!--        {% endfor %}-->
-<!--        <br>-->
+        <br>
     {% endfor %}
 
+<br>
+<h4>Добавьте Вашу книгу</h4>
 {% if user.is_authenticated %}
 <form action="{% url 'add-book' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="OK">
+    <input type="submit" value="Сохранить">
 </form>
 {% endif %}
 {% endblock %}
