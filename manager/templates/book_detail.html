@@ -23,7 +23,7 @@
 {% endfor %}
 {% for comment in book.comments.all %}
     <h3><i>{{ comment.author }}</i></h3><h6><i>{{ comment.date }}</i></h6>
-    <h4 style="background-color:Grey;"><i>{{ comment.text }}</i></h4>
+    <h4 style="background-color:Green;"><i>{{ comment.text }}</i></h4>
     <a href="{% url 'add-like-comment-location' id=comment.id location=2 %}">
         <h5>&#128151 {{ comment.likes }}</h5>
     </a>
@@ -42,7 +42,7 @@
 {% endfor %}
 
 <br>
-<h4>Оставьте Ваш комментарий о книге</h4>
+<h4>Оставьте Ваш комментарий</h4>
 
 
 {% if user.is_authenticated %}
