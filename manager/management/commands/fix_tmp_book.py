@@ -1,12 +1,12 @@
 from django.core.management.base import BaseCommand
-from manager.models import Book, TMPBook, LikeBookUser, Comment
+from manager.models import Book, LikeBookUser, Comment
 
 
 class Commnd(BaseCommand):
     def hendle(self, *args, **options):
         books = Book.objects.all()
         arr = [
-            TMPBook(
+            Book(
                 title=b.title,
                 text=b.text,
                 date=b.date,

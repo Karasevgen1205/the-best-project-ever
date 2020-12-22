@@ -1,5 +1,5 @@
 from django.contrib import admin
-from manager.models import TMPBook as Book, Comment
+from manager.models import Book, Comment
 
 
 class CommentAdmin(admin.StackedInline):
