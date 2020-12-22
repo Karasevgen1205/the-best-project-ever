@@ -66,7 +66,6 @@ class Comment(models.Model):
     likes_com = models.ManyToManyField(User, through="manager.LikeComment", related_name="liked_comments")
 
 
-
 class LikeComment(models.Model):
     class Meta:
         unique_together = ("user", "comment") #взаимоуникальные поля
