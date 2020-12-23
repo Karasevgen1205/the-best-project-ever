@@ -22,6 +22,7 @@ class MyPage(View):
         context['form'] = BookForm()
         return render(request, "index.html", context)
 
+
 class LoginView(View):
     def get(self, request):
         return render(request, "login.html", {'form': CustomAuthenticationForm()})
@@ -30,7 +31,9 @@ class LoginView(View):
         user = CustomAuthenticationForm(data=request.POST)
         if user.is_valid():
             login(request, user.get_user())
-        return redirect("the-main-page")
+            return redirect("the-main-page")
+        messages.error(request, user.error_messages)
+        return redirect("login")
 
 
 class RegisterView(View):
@@ -51,6 +54,7 @@ def logout_user(request):
     logout(request)
     return redirect("the-main-page")
 
+
 class AddCommentLike(View):
     def get(self, request, id, location=None):
         if request.user.is_authenticated:
@@ -62,6 +66,7 @@ class AddCommentLike(View):
             slug = Comment.objects.get(id=id).book_id
             return redirect('book-detail', slug=slug)
 
+
 class AddRate2Book(View):
     def get(self, request, slug, rate, location=None):
         if request.user.is_authenticated:
@@ -70,6 +75,7 @@ class AddRate2Book(View):
         if location is None:
             return redirect("the-main-page")
         return redirect('book-detail', slug=slug)
+
 
 # author, author_id, book, book_id, date, id, liked_comm_user_table, likes, likes_com, text
 class BookDetail(View):
@@ -85,6 +91,7 @@ class BookDetail(View):
 
         return render(request, "book_detail.html", {"book": book, "rate": [1, 2, 3, 4, 5], "form": CommentForm()})
 
+
 class AddBook(View):
     def post(self, request):
         if request.user.is_authenticated:
@@ -93,6 +100,7 @@ class AddBook(View):
             book.authors.add(request.user)
             book.save()
         return redirect("the-main-page")
+
 
 class AddComment(View):
     def post(self, request, slug):
@@ -105,12 +113,14 @@ class AddComment(View):
             comment.save()
         return redirect("book-detail", slug=slug)
 
+
 def comment_delete(request, id):
     if request.user.is_authenticated:
         comment = Comment.objects.get(id=id)
         if request.user == comment.author:
             comment.delete()
     return redirect('the-main-page')
+
 
 class UpdateComment(View):
     def get(self, request, id):
@@ -130,12 +140,14 @@ class UpdateComment(View):
                     cf.save(commit=True)
         return redirect('the-main-page')
 
+
 def book_delete(request, slug):
     if request.user.is_authenticated:
         book = Book.objects.get(slug=slug)
         if request.user in book.authors.all():
             book.delete()
     return redirect('the-main-page')
+
 
 class UpdateBook(View):
     def get(self, request, slug):
