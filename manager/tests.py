@@ -105,4 +105,8 @@ class TestMyAppPlease(TestCase):
         url = reverse('delete-book', kwargs=dict(slug=self.book1.slug, rate=4))
         self.client.get(url)
         self.assertEqual(Book.objects.count(), 1)
+        self.client.logout()
+        self.client.get(url)
+        self.assertEqual(Book.objects.count(), 1)
+
 
