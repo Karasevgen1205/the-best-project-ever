@@ -34,4 +34,9 @@ class TestMyAppPlease(TestCase):
         self.assertEqual(Book.objects.count(), 1, msg="created book whithout author")
 
     def test_update_book(self):
-        pass
+        book1 = Book(title1="test_title1")
+        book2 = Book(title2="test_title2")
+        book3 = Book(title3="test_title3")
+        Book.objects.bulk_create([book1, book2, book3])
+        self.assertEqual(Book.object.count(), 3)
+
