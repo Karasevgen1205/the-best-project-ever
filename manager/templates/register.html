@@ -1,6 +1,9 @@
 {% extends 'main_template.html' %}
 
 {% block register %}
+{% for msg in massages %}
+
+{% endfor %}
 <form action="{% url 'register' %}" method="post">
     {% csrf_token %}
     {{ form }}

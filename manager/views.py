@@ -1,4 +1,5 @@
 from django.contrib.auth import login, logout
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Count, Prefetch, Exists, OuterRef
 from django.shortcuts import render, redirect
@@ -42,7 +43,8 @@ class RegisterView(View):
         if form.is_valid():
             form.save()
             return redirect("login")
-        return render(request, "register.html", {"form": form})
+        messages.error(request, form.error_messages)
+        return redirect("register")
 
 
 def logout_user(request):
