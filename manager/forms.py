@@ -6,7 +6,19 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCre
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         pass
-    pass
+
+    username = UsernameField(widget=TextInput(attrs={'autofocus': True, "class": "form-control"}))
+    password1 = CharField(
+        label=_("Password"),
+        strip=False,
+        widget=PasswordInput(attrs={'autocomplete': 'new-password', "class": "form-control"})
+    )
+    password2 = CharField(
+        label=_("Password confirmation"),
+        widget=PasswordInput(attrs={'autocomplete': 'new-password', "class": "form-control"}),
+        strip=False
+    )
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = UsernameField(widget=TextInput(attrs={'autofocus': True, "class": "form-control"}))
