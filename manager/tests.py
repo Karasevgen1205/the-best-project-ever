@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from slugify import slugify
-
 from manager.models import Book
 
 
@@ -36,4 +35,3 @@ class TestMyAppPlease(TestCase):
 
     def test_update_book(self):
         pass
-
