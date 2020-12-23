@@ -80,7 +80,6 @@ class AddRate2Book(View):
 # author, author_id, book, book_id, date, id, liked_comm_user_table, likes, likes_com, text
 class BookDetail(View):
     def get(self, request, slug):
-
         comment_query = Comment.objects.annotate(count_like=Count("likes_com")).select_related("author")
         if request.user.is_authenticated:
             is_owner = Exists(User.objects.filter(comment =OuterRef("id"), id = request.user.id))

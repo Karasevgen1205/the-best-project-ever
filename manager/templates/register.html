@@ -2,8 +2,9 @@
 
 {% block register %}
 {% for msg in massages %}
-
+    {{ msg }}
 {% endfor %}
+
 <form action="{% url 'register' %}" method="post">
     {% csrf_token %}
     {{ form }}
