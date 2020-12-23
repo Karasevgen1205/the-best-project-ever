@@ -25,7 +25,14 @@ class TestMyAppPlease(TestCase):
         self.assertEqual(book.title, data['title'])
         self.assertEqual(book.slug, slugify(data['title']))
         self.assertEqual(book.authors.first(), self.user)
-
+        self.client.logout()
+        data = {
+            "title": "test_title2",
+            "text": "test text"
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302, msg="is not redirect")
+        self.assertEqual(Book.objects.count(), 1, msg="created book whithout author")
 
     def test_update_book(self):
         pass
