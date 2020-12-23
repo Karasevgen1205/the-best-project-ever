@@ -37,6 +37,13 @@ class RegisterView(View):
         form = CustomUserCreationForm()
         return render(request, "register.html", {"form": form})
 
+    def post(self, request):
+        form = CustomUserCreationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+        return render(request, "register.html", {"form": form})
+
 
 def logout_user(request):
     logout(request)

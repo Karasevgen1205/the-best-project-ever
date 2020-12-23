@@ -1,9 +1,9 @@
 {% extends 'main_template.html' %}
 
 {% block register %}
-<form action="{% url 'register' slug=slug %}" method="post">
+<form action="{% url 'register' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Сохранить">
+    <input type="submit" value="AKE">
 </form>
 {% endblock %}
