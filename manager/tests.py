@@ -48,4 +48,15 @@ class TestMyAppPlease(TestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
         self.book1.refresh_from_db()
-        print(self.book1.title, self.book1.text)
+        self.assertEqual(self.book1.title, data['title'], msg="book1 is not refreshed")
+        self.assertEqual(self.book1.text, data['text'], msg="book1 is not refreshed")
+        self.assertEqual(self.book1.authors.firsr, self.user)
+        self.client.logout()
+        url = reverse('update-book', kwargs=dict(slug=self.book2.slug))
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.book2.refresh_from_db()
+        self.assertEqual(self.book2.title, data['title'])
+        self.assertEqual(self.book2.text, data['text'])
+
+
