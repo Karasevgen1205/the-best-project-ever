@@ -34,9 +34,18 @@ class TestMyAppPlease(TestCase):
         self.assertEqual(Book.objects.count(), 1, msg="created book whithout author")
 
     def test_update_book(self):
-        book1 = Book.objects.create(title1="test_title1")
-        book2 = Book.objects.create(title2="test_title2")
-        book3 = Book.objects.create(title3="test_title3")
-        Book.objects.bulk_create([book1, book2, book3])
-        self.assertEqual(Book.objects.count(), 3)
-
+        self.client.force_login(self.user)
+        self.book1 = Book.objects.create(title1="test_title1")
+        self.book1.author.add(self.user)
+        self.book1.save()
+        self.book2 = Book.objects.create(title2="test_title2")
+        self.assertEqual(Book.objects.count(), 2)
+        data = {
+            "title": "test_title2",
+            "text": "test text"
+        }
+        url = reverse('update-book', kwargs=dict(slug=self.book1.slug))
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+        self.book1.refresh_from_db()
+        print(self.book1.title, self.book1.text)
