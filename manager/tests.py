@@ -95,4 +95,14 @@ class TestMyAppPlease(TestCase):
         self.book1.refresh_from_db()
         self.assertEqual(self.book1.rate, 4)
 
+    def test_book_delete(self):
+        self.client.force_login(self.user)
+        self.book1 = Book.objects.create(title1="test_title1")
+        self.book1.author.add(self.user)
+        self.book1.save()
+        self.book2 = Book.objects.create(title1="test_title2")
+        self.assertEqual(Book.objects.count(), 2)
+        url = reverse('delete-book', kwargs=dict(slug=self.book1.slug, rate=4))
+        self.client.get(url)
+        self.assertEqual(Book.objects.count(), 1)
 
