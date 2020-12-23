@@ -1,10 +1,9 @@
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.db.models import Count, Prefetch, Exists, OuterRef
 from django.shortcuts import render, redirect
 from django.views import View
-from manager.forms import BookForm, CustomAuthenticationForm, CommentForm
+from manager.forms import BookForm, CustomAuthenticationForm, CommentForm, CustomUserCreationForm
 from manager.models import Book, LikeComment, Comment
 from manager.models import LikeBookUser as RateBookUser
 from django.contrib.auth.forms import AuthenticationForm
@@ -31,6 +30,12 @@ class LoginView(View):
         if user.is_valid():
             login(request, user.get_user())
         return redirect("the-main-page")
+
+
+class RegisterView(View):
+    def get(self, request):
+        form = CustomUserCreationForm()
+        return render(request, "register.html", {"form": form})
 
 
 def logout_user(request):

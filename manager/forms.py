@@ -1,7 +1,12 @@
 from django.forms import ModelForm, TextInput, Textarea, CharField, PasswordInput, BaseForm
 from manager.models import Book
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
 
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        pass
+    pass
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = UsernameField(widget=TextInput(attrs={'autofocus': True, "class": "form-control"}))
