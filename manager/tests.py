@@ -108,5 +108,9 @@ class TestMyAppPlease(TestCase):
         self.client.logout()
         self.client.get(url)
         self.assertEqual(Book.objects.count(), 1)
+       
+    def test_pip():
+        pass
 
+        
 
